@@ -26,6 +26,7 @@ namespace Game_of_Life
 
             serviceProvider= services.BuildServiceProvider();
             serviceProvider.GetRequiredService<MainWindow>().Show();
+       
         }
     }
 }
