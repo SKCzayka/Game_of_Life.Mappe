@@ -16,20 +16,21 @@ using System.Windows.Shapes;
 namespace Game_of_Life_old
 {
     /// <summary>
-    /// Interaktionslogik für Title.xaml
+    /// Interaktionslogik für Menu.xaml
     /// </summary>
-    public partial class Title : Page
-
-        
+    public partial class Menu : Page
     {
-        public Title()
+        public Menu()
         {
             InitializeComponent();
-
-            
         }
 
-        private void Start_Click(object sender, RoutedEventArgs e)
+        private void backtoGame_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Color_Checked(object sender, RoutedEventArgs e)
         {
 
         }

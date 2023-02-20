@@ -6,27 +6,28 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
-namespace Game_of_Life
+namespace Game_of_Life_old
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application
     {
-        public static ServiceProvider serviceProvider { get; private set; }
+        public ServiceProvider serviceProvider;
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             ServiceCollection services = new ServiceCollection();
 
             services
                 .AddSingleton<MainWindow>()
-                .AddTransient<Farbauswahl>()
-                .AddTransient<Spiel>();
+                .AddSingleton<Page, Spiel>()
+                .AddSingleton<Page, Menu>()
+                .AddSingleton<Page, Title>();
 
-            serviceProvider= services.BuildServiceProvider();
+            serviceProvider = services.BuildServiceProvider();
             serviceProvider.GetRequiredService<MainWindow>().Show();
-       
         }
     }
 }

@@ -23,7 +23,8 @@ namespace Game_of_Life_old
             services
                 .AddSingleton<MainWindow>()
                 .AddSingleton<Page, Spiel>()
-                .AddSingleton<Page, Menu>();
+                .AddSingleton<Page, Menu>()
+                .AddSingleton<Page, Title>();
 
             serviceProvider = services.BuildServiceProvider();
             serviceProvider.GetRequiredService<MainWindow>().Show();

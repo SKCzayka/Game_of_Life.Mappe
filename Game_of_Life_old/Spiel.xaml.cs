@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,6 +23,7 @@ namespace Game_of_Life_old
     /// </summary>
     public partial class Spiel : Page
     {
+        
         public Spiel()
         {
             InitializeComponent();
@@ -33,16 +35,37 @@ namespace Game_of_Life_old
         const int ZellenHöhe = 60;
         Rectangle[,] felder = new Rectangle[ZellenBreite, ZellenHöhe];
         DispatcherTimer timer = new DispatcherTimer();
-        public string farbe;
+        bool Violet= false;
+        bool black = true;
 
-        private void Farbe_Click(object sender, RoutedEventArgs e)
-        {
-
+        public void FarbeRandom(Rectangle r)
+        {   Random würfel = new Random();
+            if (Violet)
+            {
+            r.Fill = (würfel.Next(0, 2) == 1) ? Brushes.BlueViolet : Brushes.Beige;
+            }
+            if(black)
+            {
+            r.Fill = (würfel.Next(0, 2) == 1) ? Brushes.Black : Brushes.Beige;
+            }
         }
-
+        public void Farbeklick(object sender) 
+        { 
+            if(Violet)
+            {
+                ((Rectangle)sender).Fill=  (((Rectangle)sender).Fill == Brushes.BlueViolet) ? Brushes.Beige : Brushes.BlueViolet;
+            }
+            if (black)
+            {
+                ((Rectangle)sender).Fill=  (((Rectangle)sender).Fill == Brushes.Black) ? Brushes.Beige : Brushes.BlueViolet;
+            }
+        }
+    
+    
         private void start_Click(object sender, RoutedEventArgs e)
-        {
-            Random würfel = new Random();
+        {  
+
+            
 
             for (int i = 0; i < ZellenHöhe; i++)
             {
@@ -51,8 +74,7 @@ namespace Game_of_Life_old
                     Rectangle r = new Rectangle();
                     r.Width = Zeichenfläche.ActualWidth / ZellenBreite -2.0;
                     r.Height = Zeichenfläche.ActualHeight / ZellenHöhe -2.0;
-
-                    r.Fill = (würfel.Next(0, 2) == 1) ? Brushes.BlueViolet : Brushes.Beige;
+                    FarbeRandom(r);
                     Zeichenfläche.Children.Add(r);
                     Canvas.SetLeft(r, j *  Zeichenfläche.ActualWidth / ZellenBreite);
                     Canvas.SetTop(r, i* Zeichenfläche.ActualHeight / ZellenHöhe);
@@ -65,10 +87,8 @@ namespace Game_of_Life_old
         }
         private void R_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            ((Rectangle)sender).Fill=  (((Rectangle)sender).Fill == Brushes.BlueViolet) ? Brushes.Beige : Brushes.BlueViolet;
+            Farbeklick(sender);
         }
-
-
         private void Timer_Tick(object sender, EventArgs e)
         {
             int[,] anzahlNachbahr = new int[ZellenHöhe, ZellenBreite];
@@ -128,14 +148,21 @@ namespace Game_of_Life_old
                     anzahlNachbahr[i, j] = Nachbahr;
                 }
             }
-
             for (int i = 0; i < ZellenHöhe; i++)
             {
                 for (int j = 0; j < ZellenBreite; j++)
                 {
                     if (anzahlNachbahr[i, j] < 2 || anzahlNachbahr[i, j] > 3)
                     {
-                        felder[i, j].Fill= Brushes.BlueViolet;
+                        if (Violet)
+                        {
+                            felder[i, j].Fill= Brushes.BlueViolet;
+                        }
+                        if (black)
+                        {
+                            felder[i, j].Fill= Brushes.Black;
+                        }
+
                     }
                     else if (anzahlNachbahr[i, j] == 3)
                     {
@@ -157,7 +184,20 @@ namespace Game_of_Life_old
                 timer.Start();
                 Animation.Content = "Stop Animation";
             }
+        }
 
+        private void Black(object sender, RoutedEventArgs e)
+        {
+            black = true;
+            Violet = false;
+            FViolet.IsChecked = false;
+        }
+
+        private void violet(object sender, RoutedEventArgs e)
+        {
+            black= false;
+            Violet = true;
+            FBlack.IsChecked = false;
 
         }
 

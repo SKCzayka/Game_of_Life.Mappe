@@ -13,16 +13,25 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Game_of_Life
+namespace Game_of_Life_old
 {
     /// <summary>
-    /// Interaktionslogik für Farbauswahl.xaml
+    /// Interaktionslogik für Title.xaml
     /// </summary>
-    public partial class Farbauswahl : Page
+    public partial class Title : Page
+
+        
     {
-        public Farbauswahl()
+        public Title()
         {
             InitializeComponent();
+
+            
+        }
+
+        private void Start_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -16,10 +16,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
             <RowDefinition Height="8*"/>
-            <RowDefinition Height="1*"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
         <Frame  Grid.Row="1" Grid.Column="1" Content="{Binding View}" NavigationUIVisibility= "Hidden"/>
+        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
+            
+        </StackPanel>
     </Grid>
 
 

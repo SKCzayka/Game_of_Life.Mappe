@@ -44,11 +44,21 @@ namespace Game_of_Life_old
             _pages = page.ToList();
             View = _pages.First(x => x is Spiel);
             InitializeComponent();
+
+            
         }
 
-     public event PropertyChangedEventHandler? PropertyChanged;       
+     public event PropertyChangedEventHandler? PropertyChanged;
 
+        private void Spiel_Click(object sender, RoutedEventArgs e)
+        {
 
+        }
+
+        private void menu_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
 

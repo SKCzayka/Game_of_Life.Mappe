@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -9,36 +10,62 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace Game_of_Life
+namespace Game_of_Life_old
 {
     /// <summary>
     /// Interaktionslogik für Spiel.xaml
     /// </summary>
     public partial class Spiel : Page
     {
+        
         public Spiel()
         {
             InitializeComponent();
+
             timer.Interval = TimeSpan.FromSeconds(0.1);
             timer.Tick += Timer_Tick;
         }
-        const int ZellenBreite = 100;
-        const int ZellenHöhe = 100;
+        const int ZellenBreite = 60;
+        const int ZellenHöhe = 60;
         Rectangle[,] felder = new Rectangle[ZellenBreite, ZellenHöhe];
         DispatcherTimer timer = new DispatcherTimer();
+        bool Violet= false;
+        bool black = true;
 
-        private void start_Click(object sender, RoutedEventArgs e)
-        {
-            Start();
+        public void FarbeRandom(Rectangle r)
+        {   Random würfel = new Random();
+            if (Violet)
+            {
+            r.Fill = (würfel.Next(0, 2) == 1) ? Brushes.BlueViolet : Brushes.Beige;
+            }
+            if(black)
+            {
+            r.Fill = (würfel.Next(0, 2) == 1) ? Brushes.Black : Brushes.Beige;
+            }
         }
-        public void Start()
-        {
-            Random würfel = new Random();
+        public void Farbeklick(object sender) 
+        { 
+            if(Violet)
+            {
+                ((Rectangle)sender).Fill=  (((Rectangle)sender).Fill == Brushes.BlueViolet) ? Brushes.Beige : Brushes.BlueViolet;
+            }
+            if (black)
+            {
+                ((Rectangle)sender).Fill=  (((Rectangle)sender).Fill == Brushes.Black) ? Brushes.Beige : Brushes.BlueViolet;
+            }
+        }
+    
+    
+        private void start_Click(object sender, RoutedEventArgs e)
+        {  
+
+            
 
             for (int i = 0; i < ZellenHöhe; i++)
             {
@@ -47,8 +74,7 @@ namespace Game_of_Life
                     Rectangle r = new Rectangle();
                     r.Width = Zeichenfläche.ActualWidth / ZellenBreite -2.0;
                     r.Height = Zeichenfläche.ActualHeight / ZellenHöhe -2.0;
-
-                    r.Fill = (würfel.Next(0, 2) == 1) ? Brushes.BlueViolet : Brushes.Beige;
+                    FarbeRandom(r);
                     Zeichenfläche.Children.Add(r);
                     Canvas.SetLeft(r, j *  Zeichenfläche.ActualWidth / ZellenBreite);
                     Canvas.SetTop(r, i* Zeichenfläche.ActualHeight / ZellenHöhe);
@@ -61,10 +87,8 @@ namespace Game_of_Life
         }
         private void R_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            ((Rectangle)sender).Fill=  (((Rectangle)sender).Fill == Brushes.BlueViolet) ? Brushes.Beige : Brushes.BlueViolet;
+            Farbeklick(sender);
         }
-
-
         private void Timer_Tick(object sender, EventArgs e)
         {
             int[,] anzahlNachbahr = new int[ZellenHöhe, ZellenBreite];
@@ -124,14 +148,21 @@ namespace Game_of_Life
                     anzahlNachbahr[i, j] = Nachbahr;
                 }
             }
-
             for (int i = 0; i < ZellenHöhe; i++)
             {
                 for (int j = 0; j < ZellenBreite; j++)
                 {
                     if (anzahlNachbahr[i, j] < 2 || anzahlNachbahr[i, j] > 3)
                     {
-                        felder[i, j].Fill= Brushes.BlueViolet;
+                        if (Violet)
+                        {
+                            felder[i, j].Fill= Brushes.BlueViolet;
+                        }
+                        if (black)
+                        {
+                            felder[i, j].Fill= Brushes.Black;
+                        }
+
                     }
                     else if (anzahlNachbahr[i, j] == 3)
                     {
@@ -153,11 +184,23 @@ namespace Game_of_Life
                 timer.Start();
                 Animation.Content = "Stop Animation";
             }
+        }
 
+        private void Black(object sender, RoutedEventArgs e)
+        {
+            black = true;
+            Violet = false;
+            FViolet.IsChecked = false;
+        }
+
+        private void violet(object sender, RoutedEventArgs e)
+        {
+            black= false;
+            Violet = true;
+            FBlack.IsChecked = false;
 
         }
 
     }
+}
 
-}
-}
