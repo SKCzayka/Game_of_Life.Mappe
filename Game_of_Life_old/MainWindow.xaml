@@ -6,6 +6,12 @@
         xmlns:local="clr-namespace:Game_of_Life_old"
         mc:Ignorable="d" Name="Main" DataContext="{Binding ElementName=Main}"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="{x:Type Grid }">
+            <Setter Property="Background" Value="DimGray"/>
+            
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="25"/>
